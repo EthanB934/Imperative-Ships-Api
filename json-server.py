@@ -116,8 +116,6 @@ class JSONServer(HandleRequests):
     def do_POST(self):
         """Handle POST requests from a client"""
 
-        response_body = ""
-        url = self.parse_url(self, self.path)
 
 
 
