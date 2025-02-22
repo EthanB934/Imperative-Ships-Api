@@ -22,7 +22,6 @@ class JSONServer(HandleRequests):
             if url["pk"] != 0:
                 response_body = retrieve_dock(url["pk"])
                 return self.response(response_body, status.HTTP_200_SUCCESS.value)
-
             response_body = list_docks()
             return self.response(response_body, status.HTTP_200_SUCCESS.value)
 
@@ -36,11 +35,15 @@ class JSONServer(HandleRequests):
 
         elif url["requested_resource"] == "ships":
             if url["pk"] != 0:
-                response_body = retrieve_ship(url["pk"])
+                try: 
+                    response_body = retrieve_ship(url["pk"])
+                    return self.response(response_body, status.HTTP_200_SUCCESS.value)
+                except TypeError as e:
+                    print("The value you have requested is outside of this table's range")
+        
+            if not url["query_params"]:
+                response_body = list_ships()
                 return self.response(response_body, status.HTTP_200_SUCCESS.value)
-
-            response_body = list_ships()
-            return self.response(response_body, status.HTTP_200_SUCCESS.value)
 
         else:
             return self.response("", status.HTTP_404_CLIENT_ERROR_RESOURCE_NOT_FOUND.value)
@@ -113,7 +116,8 @@ class JSONServer(HandleRequests):
     def do_POST(self):
         """Handle POST requests from a client"""
 
-        pass
+        response_body = ""
+        url = self.parse_url(self, self.path)
 
 
 
