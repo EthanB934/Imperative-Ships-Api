@@ -49,8 +49,9 @@ class JSONServer(HandleRequests):
                         "The value you have requested is outside of this table's range"
                     )
 
-            if not url["query_params"]:
-                response_body = list_ships()
+            if url:
+                # passing url dictionary to destructure in list_ships function
+                response_body = list_ships(url)
                 return self.response(response_body, status.HTTP_200_SUCCESS.value)
 
         else:

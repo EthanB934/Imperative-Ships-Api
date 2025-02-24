@@ -35,8 +35,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                 # The key of that dictionary becomes the row name
                 # The value of that dictionary becomes the expected value at that key
                 url_dictionary["query_params"] = query
-                query_list = query["pk"]
-                url_dictionary["pk"] = int(query_list[0])
+                if "pk" in query:
+                    query_list = query["pk"]
+                    url_dictionary["pk"] = int(query_list[0])
+                else:
+                    pass
                 # The dictionary becomes nested inside the url dictionary.
             except (KeyError):
                     print("Make sure to use pk in query")
